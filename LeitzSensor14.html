@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+</head>
+  <h1>LEITZ Sensor</h1>
+
+    <div class="status widget">
+      <button id="pairButton">CONNECT</button>
+      <div class="label statusBar" id="bluetooth">Click the connect button to connect your device</div>
+    </div>
+
+</head>
+<body>
+
+<div class="progress-bar">
+  <div class="segment bad-sitting">
+    <img src="s1.jpg" height="200">
+    <p><span id="bad-sitting-value">0</span>%</p>
+  </div>
+  <div class="segment good-sitting">
+    <img src="s2.jpg" height="200">
+    <p><span id="good-sitting-value">0</span>%</p>
+  </div>
+  <div class="segment sit-stand">
+    <img src="s3.jpg" height="200">
+    <p><span id="sit-stand-value">0</span>%</p>
+  </div>
+  <div class="segment stand">
+    <img src="s4.jpg" height="200">
+    <p><span id="stand-value">0</span>%</p>
+  </div>
+  <div class="walk">
+    <img src="s5.jpg" height="200">
+    <p><span id="walk-value">0</span>%</p>
+  </div>
+</div>
+
+  <table>
+    <tr>
+      <td>&nbsp; &#127777 &nbsp;&nbsp;<span id="temperature-value">---</span>&deg;C</td>
+      <td><span id="t1">--</td>
+      <td><span id="t2">--</td>
+      <td><span id="t3">--</td>
+      <td><span id="t4">--</td>
+      <td><span id="t5">--</td>
+      <td><span id="t6">--</td>
+      <td><span id="t7">--</td>
+      <td><span id="t8">--</td>
+      <td><span id="t9">--</td>
+      <td><span id="t10">--</td>
+    </tr>
+    <tr>
+      <td>&nbsp; &#128167 &nbsp;&nbsp;<span id="humidity-value">---</span>%</td>
+      <td><span id="h1">--</td>
+      <td><span id="h2">--</td>
+      <td><span id="h3">--</td>
+      <td><span id="h4">--</td>
+      <td><span id="h5">--</td>
+      <td><span id="h6">--</td>
+      <td><span id="h7">--</td>
+      <td><span id="h8">--</td>
+      <td><span id="h9">--</td>
+      <td><span id="h10">--</td>
+    </tr>
+    <tr>
+      <td>CO<sub>2</sub> <span id="co2-value">---</span>ppm</td>
+      <td><span id="c1">--</td>
+      <td><span id="c2">--</td>
+      <td><span id="c3">--</td>
+      <td><span id="c4">--</td>
+      <td><span id="c5">--</td>
+      <td><span id="c6">--</td>
+      <td><span id="c7">--</td>
+      <td><span id="c8">--</td>
+      <td><span id="c9">--</td>
+      <td><span id="c10">--</td>
+    </tr>
+    <tr>
+      <td>&nbsp; &#x23F1 &nbsp;<span id="time">---</span></td>
+      <td>-1m</td>
+      <td>-2m</td>
+      <td>-3m</td>
+      <td>-4m</td>
+      <td>-5m</td>
+      <td>-6m</td>
+      <td>-7m</td>
+      <td>-8m</td>
+      <td>-9m</td>
+      <td>-10m</td>
+    </tr>
+  </table>
+
+<style>
+
+  body {
+    padding: 20px;
+    font-family: 'Roboto', sans-serif; /* Add this line */
+  }
+  h1 {
+  position: flex;
+  margin-left: 15%;
+  top: 50px;
+  }
+
+  .widget {
+  position: flex;
+  margin-left: 15%;
+  top: 80px;
+  }
+
+
+  .progress-bar {
+    width: 70%;
+    margin: 120px auto 0;
+  }
+
+
+.segment {
+  height: 100%;
+  float: left;
+}
+
+.bad-sitting {
+  height: 100px;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.3;
+}
+
+.bad-sitting img {
+  margin-bottom: 10px;
+}
+
+.bad-sitting p {
+  margin: 0;
+}
+
+.good-sitting {
+  height: 100px;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.3;
+}
+
+.good-sitting img {
+  margin-bottom: 10px;
+}
+
+.good-sitting p {
+  margin: 0;
+}
+
+.sit-stand {
+  height: 100px;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.3;
+}
+
+.sit-stand img {
+  margin-bottom: 10px;
+}
+
+.sit-stand p {
+  margin: 0;
+}
+
+.stand {
+  height: 100px;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.3;
+}
+
+.stand img {
+  margin-bottom: 10px;
+}
+
+.stand p {
+  margin: 0;
+}
+
+.walk {
+  height: 100px;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.3;
+}
+
+.walk img {
+  margin-bottom: 10px;
+}
+
+.walk p {
+  margin: 0;
+}
+
+table {
+  width: 70%;
+  margin: 150px auto 0;
+  background-color: #f6f6f6;
+  border-spacing: 10px;
+  border-radius: 10px; /* Adding border-radius for rounded corners */
+}
+
+td {
+  color: #85888b;
+}
+
+</style>
+
+</body>
+
+<script type="text/javascript">
+
+  var maxRecords = 64;
+
+var NiclaSenseME = {
+  temperature: {
+    uuid: '19b10000-2001-537e-4f6c-d104768a1214',
+    properties: ['BLERead'],
+    structure: ['Float32'],
+    data: { temperature: [] }
+  },
+  humidity: {
+    uuid: '19b10000-3001-537e-4f6c-d104768a1214',
+    properties: ['BLERead'],
+    structure: ['Uint8'],
+    data: { humidity: [] }
+  },
+  gas: {
+    uuid: '19b10000-9003-537e-4f6c-d104768a1214',
+    properties: ['BLERead'],
+    structure: ['Uint32'],
+    data: { gas: [] }
+  },
+  status: {
+    uuid: '19b10000-4001-537e-4f6c-d104768a1214',
+    properties: ['BLERead'],
+    structure: ['Uint8'],
+    data: { status: [] },
+    rendered: false
+  },
+  badSittingWidth: {
+    uuid: '19b10000-4002-537e-4f6c-d104768a1214',
+    properties: ['BLERead'],
+    structure: ['Uint8'],
+    data: { width: [] }
+  },
+  goodSittingWidth: {
+    uuid: '19b10000-4003-537e-4f6c-d104768a1214',
+    properties: ['BLERead'],
+    structure: ['Uint8'],
+    data: { width: [] }
+  },
+  SitStandWidth: {
+    uuid: '19b10000-4004-537e-4f6c-d104768a1214',
+    properties: ['BLERead'],
+    structure: ['Uint8'],
+    data: { width: [] }
+  },
+  MStandWidth: {
+    uuid: '19b10000-4005-537e-4f6c-d104768a1214',
+    properties: ['BLERead'],
+    structure: ['Uint8'],
+    data: { width: [] }
+  }
+};
+
+
+  const sensors = Object.keys(NiclaSenseME);
+  const SERVICE_UUID = '19b10000-0000-537e-4f6c-d104768a1214';
+  var bytesReceived = 0;
+  var bytesPrevious = 0;
+  var co2Index = 0;
+  var humidityIndex = 0;
+  var temperatureIndex = 0;
+
+  // UI elements
+  const pairButton = document.getElementById('pairButton');
+  const BLEstatus = document.getElementById('bluetooth');
+
+  if ("bluetooth" in navigator) {
+    pairButton.addEventListener('click', function (event) {
+      connect();
+    });
+    // else the browser doesn't support bluetooth
+  } else {
+    msg("browser not supported"); /*pairButton.style.backgroundColor = "red";*/
+    snack("Error: This browser doesn't support Web Bluetooth. Try using Chrome.", 1);
+  }
+
+  // Top middle information label
+  function msg(m) {
+    BLEstatus.innerHTML = m;
+  }
+
+
+  async function connect() {
+    pairButton.style.backgroundColor = "grey";
+    pairButton.style.color = 'black';
+    pairButton.innerHTML = "PAIRING";
+    msg('requesting device ...');
+
+    const device = await navigator.bluetooth.requestDevice({
+      filters: [
+        {
+          services: [SERVICE_UUID] // SERVICE_UUID
+        }
+      ]
+    });
+
+    msg('connecting to device ...');
+    device.addEventListener('gattserverdisconnected', onDisconnected);
+    const server = await device.gatt.connect();
+
+    msg('getting primary service ...');
+    const service = await server.getPrimaryService(SERVICE_UUID);
+
+    // Set up the characteristics
+    for (const sensor of sensors) {
+      msg('characteristic ' + sensor + "...");
+      NiclaSenseME[sensor].characteristic = await service.getCharacteristic(NiclaSenseME[sensor].uuid);
+      // Set up notification
+      if (NiclaSenseME[sensor].properties.includes("BLENotify")) {
+        NiclaSenseME[sensor].characteristic.addEventListener('characteristicvaluechanged', function (event) { handleIncoming(NiclaSenseME[sensor], event.target.value); });
+        await NiclaSenseME[sensor].characteristic.startNotifications();
+      }
+      // Set up polling for read
+      if (NiclaSenseME[sensor].properties.includes("BLERead")) {
+        NiclaSenseME[sensor].polling = setInterval(function () {
+          NiclaSenseME[sensor].characteristic.readValue().then(function (data) { handleIncoming(NiclaSenseME[sensor], data); })
+        }
+          , 500);
+      }
+
+      NiclaSenseME[sensor].rendered = false;
+    }
+    pairButton.style.backgroundColor = 'green';
+    pairButton.style.color = 'white';
+    pairButton.innerHTML = "PAIRED";
+    msg('Characteristics configured');
+
+  }
+
+
+function handleIncoming(sensor, dataReceived) {
+  const columns = Object.keys(sensor.data);
+if (sensor === NiclaSenseME.temperature) {
+    const temperature = new DataView(dataReceived.buffer).getFloat32(0, true) - 6;
+    sensor.data.temperature.push(temperature);
+    document.getElementById("temperature-value").textContent = temperature.toFixed(2);
+    console.log("Temperature:", temperature.toFixed(2));
+  }
+if (sensor === NiclaSenseME.humidity) {
+  const humidity = new DataView(dataReceived.buffer).getUint8(0, true);
+  sensor.data.humidity.push(humidity);
+  document.getElementById("humidity-value").textContent = humidity.toFixed(2);
+  console.log("Humidity:", humidity.toFixed(2));
+}
+  if (sensor === NiclaSenseME.gas) {
+    const co2 = new DataView(dataReceived.buffer).getUint32(0, true);
+    sensor.data.gas.push(co2);
+    document.getElementById("co2-value").textContent = co2.toFixed(2);
+    console.log("CO2:", co2.toFixed(2));
+}
+if (sensor === NiclaSenseME.status) {
+  const status = new DataView(dataReceived.buffer).getUint8(0, true);
+  sensor.data.status.push(status);
+  console.log("Status:", status);
+
+if (status === 1) {
+  const standSegment = document.querySelector('.bad-sitting');
+  standSegment.style.opacity = '1';
+  standSegment.style.transition = 'opacity 1s';
+} else {
+  const standSegment = document.querySelector('.bad-sitting');
+  standSegment.style.opacity = '0.5';
+  standSegment.style.transition = 'opacity 1s';
+}
+
+
+  if (status === 2) {
+    const standSegment = document.querySelector('.good-sitting');
+    standSegment.style.opacity = '1';
+    standSegment.style.transition = 'opacity 1s';
+  } else {
+    const standSegment = document.querySelector('.good-sitting');
+    standSegment.style.opacity = '0.3';
+    standSegment.style.transition = 'opacity 1s';
+  }
+
+  if (status === 3) {
+    const standSegment = document.querySelector('.segment.sit-stand');
+    standSegment.style.opacity = '1';
+    standSegment.style.transition = 'opacity 1s';
+  } else {
+    const standSegment = document.querySelector('.segment.sit-stand');
+    standSegment.style.opacity = '0.3';
+    standSegment.style.transition = 'opacity 1s';
+  }
+
+  if (status === 4) {
+    const standSegment = document.querySelector('.segment.stand');
+    standSegment.style.opacity = '1';
+    standSegment.style.transition = 'opacity 1s';
+  } else {
+    const standSegment = document.querySelector('.segment.stand');
+    standSegment.style.opacity = '0.3';
+    standSegment.style.transition = 'opacity 1s';
+  }
+
+  if (status === 5) {
+    const standSegment = document.querySelector('.segment.walk');
+    standSegment.style.opacity = '1';
+    standSegment.style.transition = 'opacity 1s';
+  } else {
+    const standSegment = document.querySelector('.segment.walk');
+    standSegment.style.opacity = '0.3';
+    standSegment.style.transition = 'opacity 1s';
+  }
+}
+if (sensor === NiclaSenseME.badSittingWidth) {
+  const width = new DataView(dataReceived.buffer).getUint8(0, true);
+  sensor.data.width.push(width);
+  document.getElementById("bad-sitting-value").textContent = width.toFixed(0);
+}
+if (sensor === NiclaSenseME.goodSittingWidth) {
+  const width = new DataView(dataReceived.buffer).getUint8(0, true);
+  sensor.data.width.push(width);
+  document.getElementById("good-sitting-value").textContent = width.toFixed(0);
+}
+if (sensor === NiclaSenseME.SitStandWidth) {
+  const width = new DataView(dataReceived.buffer).getUint8(0, true);
+  sensor.data.width.push(width);
+  document.getElementById("sit-stand-value").textContent = width.toFixed(0);
+}
+if (sensor === NiclaSenseME.MStandWidth) {
+  const width = new DataView(dataReceived.buffer).getUint8(0, true);
+  sensor.data.width.push(width);
+  document.getElementById("stand-value").textContent = width.toFixed(0);
+}
+if (sensor === NiclaSenseME.gas) {
+  const co2 = new DataView(dataReceived.buffer).getUint32(0, true);
+  sensor.data.gas.push(co2);
+  document.getElementById("co2-value").textContent = co2.toFixed(0);
+
+  const co2TextColor = co2 < 1000 ? "green" : "red";
+  document.getElementById("co2-value").style.color = co2TextColor;
+
+  const currentTime = new Date();
+  const seconds = currentTime.getSeconds();
+  const delay = (60 - seconds) * 1000; // Calculate the delay until the next full minute
+
+  for (let i = 1; i <= co2Index; i++) {
+    const cell = document.getElementById(`c${i}`);
+    if (cell) {
+      setTimeout(() => {
+        const updatedTime = new Date();
+        const updatedSeconds = updatedTime.getSeconds();
+        if (updatedSeconds === 0) {
+          cell.textContent = co2.toFixed(0);
+          const cellTextColor = co2 < 1000 ? "green" : "red";
+          cell.style.color = cellTextColor;
+        }
+      }, delay + i * 60000);
+    }
+  }
+
+  co2Index++;
+}
+if (sensor === NiclaSenseME.humidity) {
+  const humidity = new DataView(dataReceived.buffer).getUint32(0, true);
+  sensor.data.humidity.push(humidity);
+  document.getElementById("humidity-value").textContent = humidity.toFixed(0);
+
+  if (humidity >= 40 && humidity <= 60) {
+    document.getElementById("humidity-value").style.color = "green";
+  } else {
+    document.getElementById("humidity-value").style.color = "red";
+  }
+
+  const currentTime = new Date();
+  const seconds = currentTime.getSeconds();
+  const delay = (60 - seconds) * 1000; // Calculate the delay until the next full minute
+
+  for (let i = 1; i <= humidityIndex; i++) {
+    const cell = document.getElementById(`h${i}`);
+    if (cell) {
+      setTimeout(() => {
+        const updatedTime = new Date();
+        const updatedSeconds = updatedTime.getSeconds();
+        if (updatedSeconds === 0) {
+          cell.textContent = humidity.toFixed(0);
+          if (humidity >= 40 && humidity <= 60) {
+            cell.style.color = "green";
+          } else {
+            cell.style.color = "red";
+          }
+        }
+      }, delay + i * 60000);
+    }
+  }
+
+  humidityIndex++;
+}
+if (sensor === NiclaSenseME.temperature) {
+  const temperature = new DataView(dataReceived.buffer).getFloat32(0, true);
+  sensor.data.temperature.push(temperature);
+  const temperatureValueElement = document.getElementById("temperature-value");
+  temperatureValueElement.textContent = temperature.toFixed(0);
+
+  if (temperature >= 19 && temperature <= 22) {
+    temperatureValueElement.style.color = "green";
+  } else {
+    temperatureValueElement.style.color = "red";
+  }
+
+  const currentTime = new Date();
+  const seconds = currentTime.getSeconds();
+  const delay = (60 - seconds) * 1000; // Calculate the delay until the next full minute
+
+  for (let i = 1; i <= temperatureIndex; i++) {
+    const cell = document.getElementById(`t${i}`);
+    if (cell) {
+      setTimeout(() => {
+        const updatedTime = new Date();
+        const updatedSeconds = updatedTime.getSeconds();
+        if (updatedSeconds === 0) {
+          cell.textContent = temperature.toFixed(0);
+          if (temperature >= 19 && temperature <= 22) {
+            cell.style.color = "green";
+          } else {
+            cell.style.color = "red";
+          }
+        }
+      }, delay + i * 60000);
+    }
+  }
+
+  temperatureIndex++;
+}
+
+
+
+    const typeMap = {
+      "Uint8": { fn: DataView.prototype.getUint8, bytes: 1 },
+      "Uint16": { fn: DataView.prototype.getUint16, bytes: 2 },
+      "Uint32": { fn: DataView.prototype.getUint32, bytes: 4 },
+      "Int16": { fn: DataView.prototype.getInt16, bytes: 2 },
+      "Float32": { fn: DataView.prototype.getFloat32, bytes: 4 }
+    };
+    var packetPointer = 0, i = 0;
+
+    // Read each sensor value in the BLE packet and push into the data array
+    sensor.structure.forEach(function (dataType) {
+      // Lookup function to extract data for given sensor property type
+      var dataViewFn = typeMap[dataType].fn.bind(dataReceived);
+      // Read sensor ouput value - true => Little Endian
+      var unpackedValue = dataViewFn(packetPointer, true);
+      // Push sensor reading onto data array
+      sensor.data[columns[i]].push(unpackedValue);
+      // Keep array at buffer size
+      if (sensor.data[columns[i]].length > maxRecords) { sensor.data[columns[i]].shift(); }
+      // move pointer forward in data packet to next value
+      packetPointer += typeMap[dataType].bytes;
+      bytesReceived += typeMap[dataType].bytes;
+      i++;
+    });
+  }
+
+  function onDisconnected(event) {
+    let device = event.target;
+    pairButton.style.backgroundColor = "red";
+    pairButton.innerHTML = "PAIR LEITZ";
+    // clear read polling
+    for (const sensor of sensors) {
+      if (typeof NiclaSenseME[sensor].polling !== 'undefined') {
+        clearInterval(NiclaSenseME[sensor].polling);
+      }
+    }
+  
+  }
+
+  var d2Cell = document.getElementById("time");
+
+  // Function to update the time in the "time" cell
+  function updateTime() {
+    var now = new Date();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+
+    // Format the time as HH:MM
+    var timeString = hours.toString().padStart(2, '0') + ":" +
+                     minutes.toString().padStart(2, '0');
+
+    // Update the content of the "time" cell with the current time
+    d2Cell.textContent = timeString;
+  }
+
+  // Call the updateTime function initially to set the current time
+  updateTime();
+
+  // Update the time every minute
+  setInterval(updateTime, 60000);
+
+  </script>
+
+</body>
+</html>	
