@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 </head>
   <h1>LEITZ Sensor</h1>
@@ -29,7 +30,7 @@
   </div>
   <div class="walk">
     <img src="s5.jpg" height="200">
-    <p><span id="walk-value">0</span>%</p>
+    <p><span id="walk-value">&nbsp;</span></p>
   </div>
 </div>
 
@@ -75,16 +76,16 @@
     </tr>
     <tr>
       <td>&nbsp; &#x23F1 &nbsp;<span id="time">---</span></td>
-      <td>-1m</td>
-      <td>-2m</td>
-      <td>-3m</td>
-      <td>-4m</td>
-      <td>-5m</td>
-      <td>-6m</td>
-      <td>-7m</td>
-      <td>-8m</td>
-      <td>-9m</td>
-      <td>-10m</td>
+      <td><span id="timeMinusOne">--</td>
+      <td><span id="timeMinusTwo">--</td>
+      <td><span id="timeMinusThree">--</td>
+      <td><span id="timeMinusFour">--</td>
+      <td><span id="timeMinusFive">--</td>
+      <td><span id="timeMinusSix">--</td>
+      <td><span id="timeMinusSeven">--</td>
+      <td><span id="timeMinusEight">--</td>
+      <td><span id="timeMinusNine">--</td>
+      <td><span id="timeMinusTen">--</td>
     </tr>
   </table>
 
@@ -393,15 +394,31 @@ if (status === 1) {
 }
 
 
-  if (status === 2) {
-    const standSegment = document.querySelector('.good-sitting');
-    standSegment.style.opacity = '1';
-    standSegment.style.transition = 'opacity 1s';
-  } else {
-    const standSegment = document.querySelector('.good-sitting');
+// 2 steuert "Stand" ist aber noch als "good-sitting" deklariert
+
+if (status === 2) {
+  const standSegment = document.querySelector('.good-sitting');
+  const walkSegment = document.querySelector('.walk');
+  
+  if (Activity === 1) {
     standSegment.style.opacity = '0.3';
-    standSegment.style.transition = 'opacity 1s';
+    walkSegment.style.opacity = '1';
+  } else if (Activity === 0) {
+    standSegment.style.opacity = '1';
+    walkSegment.style.opacity = '0.3';
   }
+  
+  standSegment.style.transition = 'opacity 1s';
+  walkSegment.style.transition = 'opacity 1s';
+} else {
+  const standSegment = document.querySelector('.good-sitting');
+  const walkSegment = document.querySelector('.walk');
+  
+  standSegment.style.opacity = '0.3';
+  walkSegment.style.opacity = '0.3';
+  standSegment.style.transition = 'opacity 1s';
+  walkSegment.style.transition = 'opacity 1s';
+}
 
   if (status === 3) {
     const standSegment = document.querySelector('.segment.sit-stand');
@@ -413,6 +430,8 @@ if (status === 1) {
     standSegment.style.transition = 'opacity 1s';
   }
 
+// 4 steuert "Sit-Stand" ist aber noch als "Stand" deklariert
+
   if (status === 4) {
     const standSegment = document.querySelector('.segment.stand');
     standSegment.style.opacity = '1';
@@ -423,15 +442,6 @@ if (status === 1) {
     standSegment.style.transition = 'opacity 1s';
   }
 
-  if (status === 5) {
-    const standSegment = document.querySelector('.segment.walk');
-    standSegment.style.opacity = '1';
-    standSegment.style.transition = 'opacity 1s';
-  } else {
-    const standSegment = document.querySelector('.segment.walk');
-    standSegment.style.opacity = '0.3';
-    standSegment.style.transition = 'opacity 1s';
-  }
 }
 if (sensor === NiclaSenseME.badSittingWidth) {
   const width = new DataView(dataReceived.buffer).getUint8(0, true);
@@ -595,27 +605,70 @@ if (sensor === NiclaSenseME.temperature) {
   
   }
 
-  var d2Cell = document.getElementById("time");
+var d2Cell = document.getElementById("time");
+var ti1Cell = document.getElementById("timeMinusOne");
+var ti2Cell = document.getElementById("timeMinusTwo");
+var ti3Cell = document.getElementById("timeMinusThree");
+var ti4Cell = document.getElementById("timeMinusFour");
+var ti5Cell = document.getElementById("timeMinusFive");
+var ti6Cell = document.getElementById("timeMinusSix");
+var ti7Cell = document.getElementById("timeMinusSeven");
+var ti8Cell = document.getElementById("timeMinusEight");
+var ti9Cell = document.getElementById("timeMinusNine");
+var ti10Cell = document.getElementById("timeMinusTen");
 
-  // Function to update the time in the "time" cell
-  function updateTime() {
-    var now = new Date();
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
+// Function to update the time in the cells with deductions
+function updateTime() {
+  var now = new Date();
+  var hours = now.getHours();
+  var minutes = now.getMinutes();
 
-    // Format the time as HH:MM
-    var timeString = hours.toString().padStart(2, '0') + ":" +
-                     minutes.toString().padStart(2, '0');
+  // Format the time as HH:MM
+  var timeString = hours.toString().padStart(2, '0') + ":" +
+                   minutes.toString().padStart(2, '0');
 
-    // Update the content of the "time" cell with the current time
-    d2Cell.textContent = timeString;
+  // Update the content of the "time" cell with the current time
+  d2Cell.textContent = timeString;
+
+  // Deduct minutes from the current time and update the corresponding cells
+  for (var i = 1; i <= 10; i++) {
+    now.setMinutes(minutes - i);
+    var tiHours = now.getHours();
+    var tiMinutes = now.getMinutes();
+    var tiString = tiHours.toString().padStart(2, '0') + ":" +
+                   tiMinutes.toString().padStart(2, '0');
+    var tiCell = eval("ti" + i + "Cell");
+    tiCell.textContent = tiString;
   }
+}
 
-  // Call the updateTime function initially to set the current time
-  updateTime();
+// Call the updateTime function initially to set the current time and deducted times
+updateTime();
 
-  // Update the time every minute
-  setInterval(updateTime, 60000);
+// Update the time every minute
+setInterval(updateTime, 60000);
+
+
+
+var Activity = 0; // Variable zur Speicherung des Aktivitätsstatus, initial auf 0 gesetzt
+
+// Event-Listener für Maus- und Tastaturaktivität
+document.addEventListener('mousemove', resetTimer);
+document.addEventListener('keydown', resetTimer);
+
+// Timeout-Funktion zum Setzen von Activity auf 1 nach 1 Minute Inaktivität
+var inactivityTimeout = setTimeout(function() {
+  Activity = 1;
+}, 60000); // 60000 Millisekunden = 1 Minute
+
+// Funktion zum Zurücksetzen des Timers und Aktualisieren von Activity auf 0
+function resetTimer() {
+  clearTimeout(inactivityTimeout); // Timer zurücksetzen
+  Activity = 0; // Activity auf 0 setzen
+  inactivityTimeout = setTimeout(function() {
+    Activity = 1;
+  }, 60000); // Timer erneut starten
+}
 
   </script>
 
